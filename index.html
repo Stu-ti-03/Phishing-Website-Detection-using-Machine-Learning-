@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhishGuard — URL Threat Detector</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Animated background grid -->
+  <div class="grid-bg" aria-hidden="true"></div>
+  <!-- Scan line overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <main class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-wrap">
+        <span class="logo-icon" aria-hidden="true">⬡</span>
+        <span class="logo-text">PhishGuard</span>
+        <span class="logo-tag">v1.0</span>
+      </div>
+      <p class="subtitle">ML-powered phishing URL detection &mdash; no page visited, no risk taken.</p>
+    </header>
+
+    <!-- Input card -->
+    <section class="card input-card">
+      <label class="input-label" for="urlInput">
+        <span class="label-icon">▸</span> Enter URL to analyse
+      </label>
+      <div class="input-row">
+        <div class="input-wrapper">
+          <span class="input-prefix">http://</span>
+          <input
+            id="urlInput"
+            type="text"
+            class="url-input"
+            placeholder="example.com/login?verify=1"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+        <button id="checkBtn" class="check-btn" aria-label="Analyse URL">
+          <span class="btn-text">Analyse</span>
+          <span class="btn-icon" aria-hidden="true">→</span>
+        </button>
+      </div>
+      <!-- Quick test pills -->
+      <div class="quick-tests">
+        <span class="qt-label">Try:</span>
+        <button class="qt-pill" data-url="google.com">google.com</button>
+        <button class="qt-pill" data-url="secure-login-paypal.verify-account.tk/signin">paypal phish</button>
+        <button class="qt-pill" data-url="192.168.1.1/bank/login@verify">IP phish</button>
+        <button class="qt-pill" data-url="sub1.sub2.sub3.sub4.suspicious.xyz/free-gift">deep subdomain</button>
+      </div>
+    </section>
+
+    <!-- Loading indicator -->
+    <div class="loader" id="loader" aria-live="polite" aria-label="Scanning…" hidden>
+      <div class="loader-bar">
+        <div class="loader-fill"></div>
+      </div>
+      <p class="loader-text">Scanning<span class="dots"></span></p>
+    </div>
+
+    <!-- Result card -->
+    <section class="card result-card" id="resultCard" hidden>
+
+      <!-- Verdict banner -->
+      <div class="verdict-banner" id="verdictBanner">
+        <span class="verdict-icon" id="verdictIcon"></span>
+        <span class="verdict-label" id="verdictLabel"></span>
+      </div>
+
+      <!-- Detail grid -->
+      <div class="detail-grid">
+
+        <div class="detail-item">
+          <span class="detail-key">Analysed URL</span>
+          <span class="detail-val url-val" id="detailUrl"></span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-key">Confidence</span>
+          <div class="prob-wrap">
+            <div class="prob-bar-bg">
+              <div class="prob-bar-fill" id="probFill"></div>
+            </div>
+            <span class="prob-pct" id="probPct"></span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-key">Rule Triggered</span>
+          <span class="detail-val rule-val" id="detailRule"></span>
+        </div>
+
+      </div>
+
+      <!-- Threat meter -->
+      <div class="meter-wrap">
+        <span class="meter-label">THREAT LEVEL</span>
+        <div class="meter-track">
+          <div class="meter-fill" id="meterFill"></div>
+          <div class="meter-needle" id="meterNeedle"></div>
+        </div>
+        <div class="meter-ticks">
+          <span>SAFE</span>
+          <span>UNCERTAIN</span>
+          <span>DANGER</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Error message -->
+    <div class="error-msg" id="errorMsg" role="alert" hidden></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      Built with FastAPI + RandomForest &bull; No URLs are visited or stored
+    </footer>
+
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
